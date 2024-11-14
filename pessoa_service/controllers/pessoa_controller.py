@@ -13,10 +13,16 @@ def listar_alunos():
     alunos = pessoa_model.listar_alunos()
     return jsonify(alunos)
 
+
+
+
 @pessoa_bp.route('/disciplinas/<id_disciplina>', methods=['GET'])
 def listar_diciplinas(id_disciplina):
     disciplina = pessoa_model.get_disciplina(id_disciplina)
     return jsonify(disciplina)
+
+
+
 
 @pessoa_bp.route('/leciona/<int:id_professor>/<int:id_disciplina>', methods=['GET'])
 def verificar_leciona(id_professor, id_disciplina):

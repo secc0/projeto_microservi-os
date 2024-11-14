@@ -10,14 +10,7 @@ def listar_atividades():
     return jsonify(atividades)
     
 
-@atividade_bp.route('/disciplina/<int:id_disciplina>', methods=['GET'])
-def listar_atividades_disciplina(id_disciplina):
-    data = atividade_model.listar_atividades()
-    atividades_da_disciplina = []
-    for i in data:
-        if i["id_disciplina"] == id_disciplina:
-            atividades_da_disciplina.append(i)
-    return jsonify(atividades_da_disciplina), 200
+
 
 
 @atividade_bp.route('/<int:id_atividade>', methods=['GET'])
@@ -99,6 +92,14 @@ def atualizar_atividades(id_atividade):
     except TypeError:
         return jsonify({"error": "Ocorreu um erro ao adicionar a atividade"}), 500
     
+@atividade_bp.route('/disciplina/<int:id_disciplina>', methods=['GET'])
+def listar_atividades_disciplina(id_disciplina):
+    data = atividade_model.listar_atividades()
+    atividades_da_disciplina = []
+    for i in data:
+        if i["id_disciplina"] == id_disciplina:
+            atividades_da_disciplina.append(i)
+    return jsonify(atividades_da_disciplina), 200
 
     # Deve-se implementar os endpoints de POST, PUT  e DELETE, respeitando a arquitetura já definida do microsserviço.
 

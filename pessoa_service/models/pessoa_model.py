@@ -29,6 +29,16 @@ def listar_professores():
 def listar_alunos():
     return alunos
 
+def leciona(id_professor, id_disciplina):
+    """Verifica se um professor leciona uma disciplina específica."""
+    for disciplina in disciplinas:
+        if disciplina['id_disciplina'] == id_disciplina:
+            return id_professor in disciplina['professores']
+    raise DisciplinaNaoEncontrada
+
+
+
+
 def get_disciplina(id_disciplina):
     try:
         r = requests.get(f"http://localhost:5002/atividades/disciplina/{id_disciplina}")
@@ -38,10 +48,3 @@ def get_disciplina(id_disciplina):
     except requests.RequestException as e:
         return False, f"Erro na comunicação com atividade_service: {e}"
     return disciplinas
-
-def leciona(id_professor, id_disciplina):
-    """Verifica se um professor leciona uma disciplina específica."""
-    for disciplina in disciplinas:
-        if disciplina['id_disciplina'] == id_disciplina:
-            return id_professor in disciplina['professores']
-    raise DisciplinaNaoEncontrada
