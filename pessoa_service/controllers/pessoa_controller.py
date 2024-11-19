@@ -14,20 +14,18 @@ def listar_alunos():
     return jsonify(alunos)
 
 
-
-
-@pessoa_bp.route('/disciplinas/<id_disciplina>', methods=['GET'])
-def listar_diciplinas(id_disciplina):
-    disciplina = pessoa_model.get_disciplina(id_disciplina)
-    return jsonify(disciplina)
-
-
-
-
+#atualiza atividade
+#      |
+#      v
 @pessoa_bp.route('/leciona/<int:id_professor>/<int:id_disciplina>', methods=['GET'])
 def verificar_leciona(id_professor, id_disciplina):
     try:
         leciona = pessoa_model.leciona(id_professor, id_disciplina)
-        return jsonify({'leciona': leciona}, listar_diciplinas())
+        if leciona == "O professor não leciona essa matéria":
+            return jsonify({'leciona': leciona})
+        return jsonify({'leciona': leciona}, {'disciplina': pessoa_model.get_disciplina_atividades(id_disciplina)},)
     except pessoa_model.DisciplinaNaoEncontrada:
         return jsonify({'erro': 'Disciplina não encontrada'}), 404
+
+
+# pessoa_model.get_disciplina_atividades(id_disciplina)
