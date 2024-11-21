@@ -10,7 +10,13 @@ class PessoaServiceClient:
             response = requests.get(url)
             response.raise_for_status()
             data = response.json()
-            return data.get('leciona', False) if data.get('isok') else False
+            print(f"Resposta da API: {data}")
+            if isinstance(data, list) and len(data) > 0:
+                leciona_info = next((item for item in data if "leciona" in item), None)
+                if leciona_info and isinstance(leciona_info["leciona"], list) and len(leciona_info["leciona"]) > 0:
+                    return leciona_info["leciona"][0]
+            print("Formato inesperado na resposta da API.")
+            return False
         except requests.RequestException as e:
             print(f"Erro ao acessar o pessoa_service: {e}")
             return False
